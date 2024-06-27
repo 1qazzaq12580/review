@@ -1,0 +1,253 @@
+/* test.css */
+
+@charset "utf-8";
+
+.store-info {
+    display: flex;
+    margin-bottom: 20px;
+}
+.store-info img {
+    margin-left: 20px;
+    max-width: 300px; /* 画像の最大幅を設定 */
+    height: auto; /* 高さは自動調整 */
+}
+.store-details {
+    flex: 1; /* 店舗情報部分が残りのスペースを占有する */
+}
+.store-image {
+    position: absolute;
+    top: 20px; /* 上からの距離を適宜調整 */
+    right: 20px; /* 右からの距離を適宜調整 */
+    max-width: 200px; /* 最大幅を設定（例：200px） */
+    height: auto; /* 高さを自動調整してアスペクト比を保持 */
+    z-index: 100; /* 他のコンテンツよりも手前に表示する */
+}
+
+
+
+/* Reset and box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* General styles */
+.Button {
+    position: fixed;
+    top: 30px;
+    right: 30px; /* 右に配置 */
+    z-index: 10;
+}
+
+#name {
+    font-size: calc(4vw + 2rem); /* 店名をさらに大きく */
+    position: absolute;
+    top: 10px; /* 店名をさらに上に移動 */
+    left: 50px;
+    z-index: 10;
+}
+
+#hyouka,
+#day,
+#distance,
+#time,
+#money,
+#comment,
+#menu {
+    position: absolute;
+    font-size: calc(0.5vw + 1rem);
+    z-index: 1;
+}
+
+#hyouka {
+    top: 13%; /* 評価の位置を整える */
+    left: 38%;
+}
+
+#day {
+    top: 15%;
+    left: 3%;
+}
+
+#distance {
+    top: 17%;
+    left: 30%;
+}
+
+#time {
+    top: 24%;
+    left: 30%;
+}
+
+#money {
+    top: 31%;
+    left: 30%;
+}
+
+#comment {
+    top: 27%;
+    left: 3%;
+}
+
+#menu {
+    top: 34%;
+    left: 3%;
+}
+
+/* Photo area */
+#photoArea {
+    position: absolute;
+    top: 17%;
+    left: 60%;
+    width: 30%;
+}
+
+#photoArea img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* Rating component */
+.rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.rating > input {
+    display: none;
+}
+
+.rating > label {
+    cursor: pointer;
+    font-size: 30px;
+    color: #ccc;
+    margin: 0 10px;
+}
+
+.rating > input:checked ~ label {
+    color: #f90;
+}
+
+.rating > input:hover ~ label,
+.rating > input:hover ~ input + label,
+.rating > input:checked ~ input + label {
+    color: #fc0;
+}
+
+/* Review list */
+.review-list {
+    margin-top: 30px;
+    padding: 20px; /* Add padding to avoid overlap */
+}
+
+.review-item {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.review-item:last-child {
+    border-bottom: none;
+}
+
+.review-item .name {
+    font-weight: bold;
+}
+
+.review-item .date {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.review-item .rating {
+    margin: 5px 0;
+}
+
+.review-item .review-text {
+    margin: 10px 0;
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Button styles */
+.center-button {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Sort options */
+.sort-options {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.sort-options select {
+    padding: 5px 10px;
+    font-size: 1em;
+}
+
+
+.store-image {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 100px; /* 適切なサイズに調整してください */
+    height: auto; /* 必要に応じて高さを調整 */
+    border: 1px solid #ccc; /* 枠線を追加 */
+    border-radius: 5px; /* 角丸にする場合 */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* 影を追加 */
+    z-index: 1000; /* モーダルよりも手前に表示 */
+}
+
+.container {
+    position: relative;
+}
