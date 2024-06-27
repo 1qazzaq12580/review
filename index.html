@@ -1,0 +1,98 @@
+<!-- 製作者　柳原　　最終更新日2024/06/10 --> 
+<!-- 更新者　？？　　最終更新日2024/？/？ -->
+<!-- 改行とか文字が多くて見にくいのはわかってるけど今回はほぼすべての行に解説を入れることにする コメントなしバージョンは別ファイルのコメなしindex.html -->
+<!-- この文を囲ってるのはHTMLのコメントアウト方法、Script内では仕様が変わり、//が使える（今回はこの二つの方法以外でのコメントアウトは禁止する　あるか知らんけど） -->
+<!--  -->
+
+<!DOCTYPE html><!-- HTML文書を作成するとき、HTMLタグよりも先頭に書く、最新のHTML5標準に従って解釈するようにというDOCTYPE宣言というもの　これを書かないとモードが変わってCSSなどがうまく読み込めない -->
+<html><!-- 今はhtmlで書いてるけど普通ならPHPに変更すると思う、今回は時間があればする -->
+  <head><!-- 頭、タイトルとかリンクはこの中に書く　ページ設定や構成に関連する情報を書く所 -->
+    <title>飲食店レビューサイト</title><!-- これはブラウザのタブの名前 　右上の _ □ × と同じ高さにあるやつ-->
+
+    <!-- 下のコードはAPIの読み込みをしてる、ChatGPTに入れると機密度の高い情報のため、初期状態の"https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY">に戻されるので
+    お前らのコードが動かんくなったのはおそらくこれが原因 -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAR8q6aNT6eqHEEyyOpt3NiWjsqymYnqHk"></script>
+
+    <script>//ここからはJavaScript　Scriptの中は最初の説明通りコメントアウトの方法が違う
+      let map;//29行目の※1の地図オブジェクトを格納してる　中身を書き換える予定はないから※１の中でしか値を変更できなくしてる　このことブロックスコープと言い、この機能を持つ変数宣言　それ以外はvarと同じ
+      const markers = [];//定数宣言（変数と違い値を再代入できない）要素は空　中身を変えるには　function addMarker(store)※2を変更する
+      const storeData = [//ここはピンを表示するための情報を入れる所　31行目※3の解説で出てくる
+        //学校登録　 
+        {name: "大阪情報専門学校",position: { lat: 34.68140031175104,lng: 135.54234075832852},type: "学校",},
+        
+        //ラーメン店登録
+        {name: "麵屋虎司",position: {lat: 34.68009185762709,lng: 135.54865432345906},type: "ラーメン",},
+        {name: "薩摩ラーメン しんば（心羽）",position: {lat: 34.682646576739124,lng: 135.54456726636013},type: "ラーメン",},
+        //下見て手空いた奴が追加していく latlngはgooglemapsのピン右をクリックで一番上に出るやつコピーする こんなん⇒34.68009185762709, 135.54865432345906　分割して使う、左がlat(緯度)、右がlng（経度）
+        //{name:'店名',position: {lat: , lng:},type:'ジャンル'},
+      ];
+
+      function initMap() { //マップを開いた時の初期位置を決める　
+        map = new google.maps.Map(document.getElementById("map"), {//読み込んでる
+          center: { lat: 34.68140031175104,  lng: 135.54234075832852 },//初期座標　情報専門学校にしており、19行目※3を設定していないとピンがなくただ学校中心にマップが見れる状態になる
+          zoom: 17,//数字が大きいほど拡大され小さいと離れる　とりあえず17にしてるけどレビューが全部入る範囲にしようと思っている
+        });
+        
+        storeData.forEach(addMarker);//storeData:店舗情報を格納した配列 storeDataの中身に一個ずつ関数を実行する (addMarker):マーカーを追加する関数。つまり店舗情報に一個ずつマーカーをつけるってこと
+      }
+
+      function addMarker(store) {//※2
+        const marker = new google.maps.Marker({
+          position: store.position,
+          map: map,
+          title: store.name,
+        });
+
+        const infoWindow = new google.maps.InfoWindow({
+          content: `<h3>${store.name}</h3><p>${store.type}</p>`,
+        });
+
+        marker.addListener("click", () => {
+          infoWindow.open(map, marker);
+        });
+
+        markers.push({ marker, type: store.type });
+      }
+
+      function filterMarkers() {
+        const selectedTypes = Array.from(
+          document.querySelectorAll('input[name="storeType"]:checked')
+        ).map((checkbox) => checkbox.value);
+
+        markers.forEach(({ marker, type }) => {
+          if (selectedTypes.includes(type)) {
+            marker.setMap(map);
+          } else {
+            marker.setMap(null);
+          }
+        });
+      }
+    </script>
+  </head>
+
+
+  <body onload="initMap()">
+    <div id="map" style="height: 500px; width: 100%"></div>
+    <div id="menu">
+      <label
+        ><input
+          type="checkbox"
+          name="storeType"
+          value="ラーメン"
+          onchange="filterMarkers()"
+        />
+        ラーメン</label
+      >
+      <label
+        ><input
+          type="checkbox"
+          name="storeType"
+          value="和食"
+          onchange="filterMarkers()"
+        />
+        和食</label
+      >
+      <!-- 他のチェックボックスを追加 -->
+    </div>
+  </body>
+</html>
